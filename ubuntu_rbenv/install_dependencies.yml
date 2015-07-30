@@ -1,0 +1,32 @@
+---
+- hosts: all
+  remote_user: deploy
+  gather_facts: no
+  sudo: true
+  tasks:
+  # - name: upgrade all packages
+  #   apt: upgrade=dist
+  - name: install git-core
+    apt: name=git-core state=present
+  - name: install curl
+    apt: name=curl state=present
+  - name: install zlib1g-dev
+    apt: name=zlib1g-dev state=present
+  - name: install build-essential
+    apt: name=build-essential state=present
+  - name: install libssl-dev
+    apt: name=libssl-dev state=present
+  - name: install libreadline-dev
+    apt: name=libreadline-dev state=present
+  - name: install libyaml-dev
+    apt: name=libyaml-dev state=present
+  # - name: install libxml2-dev
+  #   apt: name=libxml2-dev state=present
+  # - name: install libxslt1-dev
+  #   apt: name=libxslt1-dev state=present
+  # - name: install libcurl4-openssl-dev
+  #   apt: name=libcurl4-openssl-dev state=present
+  # - name: install python-software-properties
+  #   apt: name=python-software-properties state=present
+  - name: install libffi-dev
+    apt: name=libffi-dev state=present
