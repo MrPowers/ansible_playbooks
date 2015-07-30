@@ -1,17 +1,20 @@
 ---
-- hosts: all
+- hosts: local
   remote_user: vagrant
   sudo: true
   gather_facts: no
   tasks:
   - name: create deploy user
-    user: name=deploy state=present
+    user: name=deploy
+          state=present
 
   # change config so sudo does not prompt for password for deploy user
   - lineinfile: dest=/etc/sudoers state=present insertafter="gibberish" line="deploy ALL=(ALL) NOPASSWD:ALL"
 
-  # copy authorized keys from vagrant user to deploy user
+  # copy authorized keys from ec2-user to deploy
   - command: sudo -u deploy mkdir /home/deploy/.ssh
   - command: cp /home/vagrant/.ssh/authorized_keys /home/deploy/.ssh/authorized_keys
   - command: chmod 600 /home/deploy/.ssh/authorized_keys
   - command: chown -R deploy /home/deploy
+
+  - shell: sudo chsh -s /bin/bash deploy
