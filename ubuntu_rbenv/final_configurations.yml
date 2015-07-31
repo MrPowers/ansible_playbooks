@@ -1,0 +1,30 @@
+---
+- hosts: deploy
+  remote_user: deploy
+  sudo: true
+  gather_facts: no
+  tasks:
+
+  # create directories for app
+  - command: mkdir -p "/app/fred/"
+  - command: mkdir -p "/app/fred/releases"
+  - command: mkdir -p "/app/fred/shared"
+  - command: mkdir -p "/app/fred/shared/config"
+  - command: mkdir -p "/app/fred/shared/log"
+  - command: chown -R deploy "/app"
+
+  # add environment variables
+  - shell: 'echo "export RAILS_ENV=production" >> /home/deploy/.bashrc'
+
+  # use machine_user cred for github.com
+  - shell: 'echo "Host github.com" >> /home/deploy/.ssh/config'
+  - shell: 'echo "  IdentityFile ~/.ssh/machine_user" >> /home/deploy/.ssh/config'
+
+  # add github to known hosts
+  - name: ensure github.com is a known host
+    lineinfile:
+     dest: /home/deploy/.ssh/known_hosts
+     create: yes
+     state: present
+     line: "{{ lookup('pipe', 'ssh-keyscan -t rsa github.com') }}"
+     regexp: "^github\\.com"
