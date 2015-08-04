@@ -1,0 +1,9 @@
+---
+- hosts: all
+  remote_user: vagrant
+  sudo: true
+  tasks:
+   - name: install nginx
+     apt: name=nginx state=present
+   - name: install nodejs
+     apt: name=nodejs state=present

@@ -47,7 +47,3 @@
     apt: name=bison state=present
   - name: install libffi-dev
     apt: name=libffi-dev state=present
-  # - name: install nginx
-  #   apt: name=nginx state=present
-  # - name: install nodejs
-  #   apt: name=nodejs state=present

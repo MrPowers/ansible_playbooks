@@ -21,3 +21,4 @@
 
   - shell: 'echo "gem: --no-rdoc --no-ri" > ~/.gemrc'
   - shell: bash -lc 'gem install bundler'
+
