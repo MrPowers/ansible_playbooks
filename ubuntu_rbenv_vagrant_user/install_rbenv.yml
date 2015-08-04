@@ -1,23 +1,23 @@
 ---
-- hosts: deploy
-  remote_user: deploy
+- hosts: all
+  remote_user: vagrant
   gather_facts: no
   sudo: false
   tasks:
-   # - command: cd
-   - command: git clone git://github.com/sstephenson/rbenv.git .rbenv
-   - shell: echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
-   - shell: echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
 
-   # - command: git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
-   # - command: echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bash_profile
-   # - command: source ~/.bash_profile
+  - shell: mkdir ~/.rbenv
+  - shell: chdir=~/.rbenv git clone git://github.com/sstephenson/rbenv.git
+  - shell: echo 'export PATH="$HOME/.rbenv/rbenv/bin:$PATH"' >> ~/.bash_profile
+  - shell: echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
 
-   # - command: rbenv install -v 2.2.1
-   # - command: rbenv global 2.2.1
+  - shell: git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+  - shell: echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bash_profile
+  - shell: bash -lc 'source ~/.bash_profile'
 
-   # - command: ruby -v
+  - shell: bash -lc '$HOME/.rbenv/rbenv/bin/rbenv install -v 2.2.2'
+  - shell: bash -lc '$HOME/.rbenv/rbenv/bin/rbenv global 2.2.2'
 
-   # - command: echo '"gem: --no-document"' > ~/.gemrc
+  - shell: bash -lc '$HOME/.rbenv/rbenv/bin/rbenv rehash'
 
-   # - command: gem install bundler
+  - shell: 'echo "gem: --no-rdoc --no-ri" > ~/.gemrc'
+  - shell: bash -lc 'gem install bundler'
